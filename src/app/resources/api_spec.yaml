@@ -93,7 +93,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LoginResponse"
+                $ref: "#/components/schemas/RegisterResponse"
         400:
           description: "Bad Request. Invalid information"
         403:
@@ -274,7 +274,7 @@ paths:
       tags:
         - films
       summary: "View films"
-      description: "Get a list of all films with a subset of film information. By default, the films should be sorted by when they were released from oldest to newest. The list should be filtered, then sorted, then paginated using `startIndex` and `count`. The returned object should include the total number of films that match the search criteria, which may differ from the number returned by the query (this is for client pagination).<br/>The film rating is a number up to 2 decimal places, with unnecessary values ignored e.g.; 0.00 -> 0, 7.50 -> 7.5, 6.333˙ -> 6.33"
+      description: "Get a list of all films with a subset of film information. By default, the films should be sorted by when they were released from oldest to newest. The list should be filtered, then sorted, then paginated using `startIndex` and `count`. The returned object should include the total number of films that match the search criteria, which may differ from the number returned by the query (this is for client pagination).<br/>The film rating is a number up to 2 decimal places, with unnecessary values ignored e.g.; 0.00 -> 0, 7.50 -> 7.5, 6.333Ë™ -> 6.33"
       parameters:
         - in: query
           name: startIndex
@@ -646,6 +646,14 @@ components:
       required:
         - email
         - password
+    RegisterResponse:
+      title: RegisterResponse
+      type: object
+      properties:
+        userId:
+          type: integer
+          minimum: 0
+          example: 11
     LoginResponse:
       title: LoginResponse
       type: object
