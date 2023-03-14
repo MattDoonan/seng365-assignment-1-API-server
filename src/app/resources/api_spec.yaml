@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: "SENG365 2023: Film Festival Site API"
-  version: 1.0.0
+  version: 1.0.1
   description: "This specification documents the API that must be implemented for Assignment 1. The API provides all of the server-side functionality necessary in order to implement all the user stories for Assignment 2"
 servers:
   - url: https://seng365.csse.canterbury.ac.nz/api/v1
@@ -88,7 +88,7 @@ paths:
             schema:
               $ref: "#/components/schemas/RegisterUser"
       responses:
-        200:
+        201:
           description: "OK"
           content:
             application/json:
@@ -274,7 +274,7 @@ paths:
       tags:
         - films
       summary: "View films"
-      description: "Get a list of all films with a subset of film information. By default, the films should be sorted by when they were released from oldest to newest. The list should be filtered, then sorted, then paginated using `startIndex` and `count`. The returned object should include the total number of films that match the search criteria, which may differ from the number returned by the query (this is for client pagination).<br/>The film rating is a number up to 2 decimal places, with unnecessary values ignored e.g.; 0.00 -> 0, 7.50 -> 7.5, 6.333Ë™ -> 6.33"
+      description: "Get a list of all films with a subset of film information. By default, the films should be sorted by when they were released from oldest to newest. The list should be filtered, then sorted, then paginated using `startIndex` and `count`. The returned object should include the total number of films that match the search criteria, which may differ from the number returned by the query (this is for client pagination).<br/>The film rating is a number up to 2 decimal places, with unnecessary values ignored e.g.; 0.00 -> 0, 7.50 -> 7.5, 6.333Ã‹â„¢ -> 6.33"
       parameters:
         - in: query
           name: startIndex
