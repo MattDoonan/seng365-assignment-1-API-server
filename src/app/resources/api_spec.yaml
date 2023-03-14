@@ -89,7 +89,7 @@ paths:
               $ref: "#/components/schemas/RegisterUser"
       responses:
         201:
-          description: "OK"
+          description: "Created"
           content:
             application/json:
               schema:
