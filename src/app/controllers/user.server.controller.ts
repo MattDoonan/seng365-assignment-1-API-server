@@ -7,7 +7,6 @@ import * as token from 'rand-token';
 import {validate} from "../services/validation.services";
 import Ajv from 'ajv';
 import {categories} from "../models/userCategories";
-
 const ajv = new Ajv({removeAdditional: 'all', strict: false});
 
 
@@ -109,7 +108,7 @@ const view = async (req: Request, res: Response): Promise<void> => {
             const userFromId = await users.checkField(id, categories.ID);
             if (userFromId.length !== 1) {
                 res.statusMessage = `Not Found. No user with specified ID`;
-                res.status( 401 ).send();
+                res.status( 404 ).send();
                 return;
             }
             res.statusMessage = `OK`;
