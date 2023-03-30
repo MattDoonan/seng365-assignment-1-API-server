@@ -30,4 +30,13 @@ const insert = async (firstName: string, lastName: string, email: string, passwo
     return result;
 };
 
-export { insert, updateUserField, checkField }
+const checkFile = (file:string) => {
+    const validFiles = ['image/png', 'image/jpeg', 'image/gif'];
+    for (const f of validFiles) {
+        if (f === file) {
+            return `.`+file.substring(file.indexOf("/") + 1);
+        }
+    }
+    return 'invalid';
+}
+export { insert, updateUserField, checkField, checkFile }

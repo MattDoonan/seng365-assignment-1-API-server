@@ -27,4 +27,8 @@ type User = {
      * authentication
      */
     auth_token: string
+    /**
+     * file
+     */
+    image_filename: string
 }
