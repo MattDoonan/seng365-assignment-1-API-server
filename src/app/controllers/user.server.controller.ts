@@ -7,6 +7,7 @@ import * as token from 'rand-token';
 import {validate} from "../services/validation.services";
 import Ajv from 'ajv';
 import {categories} from "../models/userCategories";
+import logger from "../../config/logger";
 const ajv = new Ajv({removeAdditional: 'all', strict: false});
 
 
@@ -148,24 +149,29 @@ const update = async (req: Request, res: Response): Promise<void> => {
         if (req.body.currentPassword == null) {
             passwordCheck = true;
         } else {
-            passwordCheck = await argon2.verify(userFromToken[0].password, req.body.currentPassword);
+            passwordCheck = await argon2.verify(userFromId[0].password, req.body.currentPassword);
         }
-        if (!passwordCheck || recToken == null || userFromToken.length !== 1) {
+        const userFromEmail = await users.checkField(req.body.email, categories.EMAIL);
+        if (recToken == null || userFromToken.length !== 1) {
             res.statusMessage = `Unauthorized or Invalid currentPassword`;
             res.status(401).send();
             return;
         }
-        const userFromEmail = await users.checkField(req.body.email, categories.EMAIL);
         if(req.body.password === req.body.currentPassword || userFromEmail.length !== 0 || userFromId[0].id !== userFromToken[0].id) {
             res.statusMessage = `Forbidden. This is not your account, or the email is already in use, or identical current and new passwords`;
             res.status(403).send();
+            return;
+        }
+        if (!passwordCheck) {
+            res.statusMessage = `Unauthorized or Invalid currentPassword`;
+            res.status(401).send();
             return;
         }
         await users.updateUserField(req.body.email ?? userFromToken[0].email, recToken, categories.EMAIL, categories.TOKEN);
         await users.updateUserField(req.body.firstName ?? userFromToken[0].first_name, recToken, categories.FIRST_NAME, categories.TOKEN);
         await users.updateUserField(req.body.lastName ?? userFromToken[0].last_name, recToken, categories.LAST_NAME, categories.TOKEN);
         if (req.body.currentPassword != null) {
-            const password = await argon2.hash(req.body.currentPassword);
+            const password = await argon2.hash(req.body.password);
             await users.updateUserField(password, recToken, categories.PASSWORD, categories.TOKEN);
         }
         res.statusMessage = `OK`;
